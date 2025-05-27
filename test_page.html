@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Test Environment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2962FF;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .test-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            min-height: 70vh;
+        }
+        
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            z-index: 1000;
+        }
+        
+        .question {
+            margin-bottom: 30px;
+        }
+        
+        .options {
+            margin-left: 20px;
+        }
+        
+        .option {
+            margin: 10px 0;
+        }
+        
+        button {
+            background-color: #2962FF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1E40AF;
+        }
+        
+        .finish-btn {
+            background-color: #FF3D00;
+            margin-top: 30px;
+        }
+        
+        .finish-btn:hover {
+            background-color: #DD2C00;
+        }
+        
+        .warning {
+            background-color: #FFECB3;
+            border-left: 4px solid #FFC107;
+            padding: 10px 15px;
+            margin: 20px 0;
+        }
+        
+        .fullscreen-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 0, 0, 0.9);
+            color: white;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="fullscreen-warning" class="fullscreen-warning hidden">
+        <h1>⚠️ WARNING! ⚠️</h1>
+        <h2>You have exited fullscreen mode!</h2>
+        <p>This action will be reported. Please return to fullscreen immediately.</p>
+        <button onclick="requestFullscreen()">Return to Fullscreen</button>
+    </div>
+
+    <header>
+        <h1>Trial Test </h1>
+    </header>
+    
+    <div class="timer" id="timer">Time: 00:00:00</div>
+    
+    <div class="container">
+        <div class="warning">
+            <strong>Important:</strong> Do not exit fullscreen mode or switch tabs during the test. 
+            Such actions will be recorded and may be considered as cheating attempts.
+        </div>
+        
+        <div class="test-content">
+            <h2>Test Questions</h2>
+            
+            <div class="question">
+                <h3>1. What is the capital of France?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q1a" name="q1" value="a">
+                        <label for="q1a">London</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1b" name="q1" value="b">
+                        <label for="q1b">Paris</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1c" name="q1" value="c">
+                        <label for="q1c">Berlin</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1d" name="q1" value="d">
+                        <label for="q1d">Rome</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>2. Which planet is known as the Red Planet?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q2a" name="q2" value="a">
+                        <label for="q2a">Venus</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2b" name="q2" value="b">
+                        <label for="q2b">Jupiter</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2c" name="q2" value="c">
+                        <label for="q2c">Mars</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2d" name="q2" value="d">
+                        <label for="q2d">Saturn</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>3. What is the largest mammal on Earth?</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q3a" name="q3" value="a">
+                        <label for="q3a">Elephant</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3b" name="q3" value="b">
+                        <label for="q3b">Blue Whale</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3c" name="q3" value="c">
+                        <label for="q3c">Giraffe</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3d" name="q3" value="d">
+                        <label for="q3d">Polar Bear</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="finish-btn" id="finish-test">Finish Test</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables to track test state
+        let testStarted = false;
+        let testFinished = false;
+        let startTime = null;
+        let timerInterval = null;
+        let fullscreenExitCount = 0;
+        let visibilityChangeCount = 0;
+        let testDuration = 0;
+        
+        // Function to request fullscreen
+        function requestFullscreen() {
+            const docEl = document.documentElement;
+            
+            if (docEl.requestFullscreen) {
+                docEl.requestFullscreen();
+            } else if (docEl.mozRequestFullScreen) { // Firefox
+                docEl.mozRequestFullScreen();
+            } else if (docEl.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                docEl.webkitRequestFullscreen();
+            } else if (docEl.msRequestFullscreen) { // IE/Edge
+                docEl.msRequestFullscreen();
+            }
+            
+            document.getElementById('fullscreen-warning').classList.add('hidden');
+        }
+        
+        // Function to update timer
+        function updateTimer() {
+            if (!startTime) return;
+            
+            const currentTime = new Date();
+            const elapsedTime = new Date(currentTime - startTime);
+            const hours = String(elapsedTime.getUTCHours()).padStart(2, '0');
+            const minutes = String(elapsedTime.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(elapsedTime.getUTCSeconds()).padStart(2, '0');
+            
+            document.getElementById('timer').textContent = `Time: ${hours}:${minutes}:${seconds}`;
+        }
+        
+        // Function to handle fullscreen change
+        function handleFullscreenChange() {
+            if (!document.fullscreenElement && 
+                !document.mozFullScreenElement && 
+                !document.webkitFullscreenElement && 
+                !document.msFullscreenElement) {
+                
+                // User exited fullscreen
+                if (testStarted && !testFinished) {
+                    fullscreenExitCount++;
+                    document.getElementById('fullscreen-warning').classList.remove('hidden');
+                    
+                    // Log the event
+                    console.log(`Fullscreen exit detected (${fullscreenExitCount} times)`);
+                    
+                    // Force fullscreen again after a short delay
+                    setTimeout(requestFullscreen, 500);
+                }
+            }
+        }
+        
+        // Function to handle visibility change (tab switching)
+        function handleVisibilityChange() {
+            if (document.hidden && testStarted && !testFinished) {
+                visibilityChangeCount++;
+                console.log(`Tab visibility change detected (${visibilityChangeCount} times)`);
+                
+                // When they come back, show warning
+                document.addEventListener('visibilitychange', function onReturn() {
+                    if (!document.hidden) {
+                        alert("WARNING: Tab switching detected! This incident has been recorded.");
+                        document.removeEventListener('visibilitychange', onReturn);
+                        
+                        // Force fullscreen again
+                        requestFullscreen();
+                    }
+                }, { once: true });
+            }
+        }
+        
+        // Function to finish the test
+        function finishTest() {
+            testFinished = true;
+            clearInterval(timerInterval);
+            
+            // Exit fullscreen silently
+            try {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            } catch (e) {
+                console.error("Error exiting fullscreen:", e);
+            }
+            
+            // Create a summary of test monitoring data
+            const testSummary = {
+                duration: (new Date() - startTime) / 1000,
+                fullscreen_exits: fullscreenExitCount,
+                tab_switches: visibilityChangeCount
+            };
+            
+            console.log("Test monitoring data:", testSummary);
+            
+            // If there's a parent window, send data via postMessage
+            if (window.opener && !window.opener.closed) {
+                try {
+                    // Send data to parent window using postMessage
+                    window.opener.postMessage({
+                        type: 'TEST_COMPLETED',
+                        data: {
+                            test_completed: true,
+                            duration: testSummary.duration,
+                            fullscreen_exits: testSummary.fullscreen_exits,
+                            tab_switches: testSummary.tab_switches
+                        }
+                    }, '*');
+                    
+                    // Focus the parent window
+                    window.opener.focus();
+                } catch (e) {
+                    console.error("Error communicating with opener:", e);
+                }
+            }
+            
+            // Prevent any beforeunload dialogs
+            window.onbeforeunload = null;
+            
+            // Show a brief message and close this window/tab
+            alert(`Test completed! Your monitoring data has been recorded.`);
+            
+            // Close this window/tab
+            window.close();
+            
+            return false; // Prevent default button behavior
+        }
+        
+        // Initialize the test
+        function initTest() {
+            // Start timer
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            // Request fullscreen
+            requestFullscreen();
+            
+            // Mark test as started
+            testStarted = true;
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fullscreen change event listeners
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('msfullscreenchange', handleFullscreenChange);
+            
+            // Add visibility change listener (for tab switching)
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            
+            // Add finish test button event listener
+            document.getElementById('finish-test').addEventListener('click', finishTest);
+            
+            // Initialize the test
+            initTest();
+        });
+        
+        // Prevent tab switching or closing with beforeunload
+        window.addEventListener('beforeunload', function(e) {
+            if (testStarted && !testFinished) {
+                // Cancel the event
+                e.preventDefault();
+                // Chrome requires returnValue to be set
+                e.returnValue = '';
+                return 'Are you sure you want to leave? This will be recorded as a potential cheating attempt.';
+            }
+        });
+        
+        // Prevent right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Prevent keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Prevent Alt+Tab, Alt+F4, Ctrl+W, etc.
+            if ((e.altKey && (e.key === 'Tab' || e.key === 'F4')) || 
+                (e.ctrlKey && (e.key === 'w' || e.key === 'W'))) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Force focus on this window
+        window.focus();
+        
+        // Try to go fullscreen immediately
+        window.addEventListener('load', function() {
+            // Request fullscreen after a short delay to ensure the page is fully loaded
+            setTimeout(requestFullscreen, 500);
+        });
+        
+        // Update testDuration every second
+        setInterval(function() {
+            if (startTime && !testFinished) {
+                testDuration = Math.floor((new Date() - startTime) / 1000);
+            }
+        }, 1000);
+
+        // Add this function to periodically send updates to the API
+        function sendPeriodicUpdates() {
+            // Only send if test has started
+            if (!testStarted) return;
+            
+            // Send current test data to the API
+            const testData = {
+                duration: testDuration,
+                fullscreen_exits: fullscreenExitCount,
+                tab_switches: visibilityChangeCount  // Make sure to use the correct variable name
+            };
+            
+            console.log("Sending update to API:", testData);  // Debug log
+            
+            // Send to Flask API
+            fetch('http://localhost:5000/api/test-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(testData)
+            })
+            .then(response => response.json())
+            .then(data => console.log("API response:", data))
+            .catch(e => console.error("Error sending update to API:", e));
+        }
+
+        // Call this function every second
+        setInterval(sendPeriodicUpdates, 1000);
+
+        // Add this function to test the API connection
+        function testApiConnection() {
+            const testData = {
+                duration: 999,
+                fullscreen_exits: 999,
+                tab_switches: 999,
+                test_message: "This is a test"
+            };
+            
+            console.log("Sending test data to API:", testData);
+            
+            fetch('http://localhost:5000/api/test-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(testData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("API test response:", data);
+                alert("API test successful! Check console for details.");
+            })
+            .catch(e => {
+                console.error("API test failed:", e);
+                alert("API test failed! Check console for details.");
+            });
+        }
+    </script>
+</body>
+</html>
+
